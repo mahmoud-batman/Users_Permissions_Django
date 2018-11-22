@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %} Organization | {{block.super}} {% endblock %}
+{% block content %}
+<h1>Permission</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Code Name</th>
+    <th>Code</th>
+    <th>Edit</th>
+  </tr>
+  {% for perm in permissions %}
+  <tr>
+    <td>{{perm.name}}</td>
+    <td>{{perm.codename}}</td>
+    <td>{{perm}}</td>
+    <td><a href="{% url 'permissions:edit-permissions' perm.id %}">
+        <button type="button" name="button">Edit</button></a>
+    </td>
+  </tr>
+  {% endfor %}
+</table><br><hr><br>
+<form method="post">
+  {% csrf_token %}
+  <div>
+    <label for="code_name">Add Permission Code :</label>
+    <input type="text" id="code_name" name="code_name" value="" placeholder="e.g: can_add_user {Unique}  "><br><br>
+    <label for="name">Add Permission Name :</label>
+    <input type="text" id="name" name="name" value="" placeholder="e.g: This User Can Add Users">
+  </div><br>
+  <button type="submit">Save</button>
+</form>
+<br>
+{% endblock %}

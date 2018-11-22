@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %} Organization | {{block.super}} {% endblock %}
+{% block content %}
+<form method="post">
+  {% csrf_token %}
+  <div>
+    {% for owner_perm in all_permissions %}
+    <input type="checkbox" id="checks" name="checks" value="{{ owner_perm }}"
+          {% for user_perm in user_permissions %}
+                  {% if owner_perm == user_perm %}checked{% endif %}
+          {% endfor %}
+          >
+    <label for="checks">{{owner_perm}}</label><br>
+    {% endfor %}
+  </div>
+  <button type="submit">Save</button>
+</form>
+{% endblock %}

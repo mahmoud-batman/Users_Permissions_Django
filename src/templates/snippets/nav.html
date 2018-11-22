@@ -1,0 +1,44 @@
+<a href="{% url 'home' %}">Home</a>
+
+{% if request.user.is_authenticated %}
+    <br><a href="{% url 'logout' %}"> Logout </a><hr><br>
+    {% if request.user.profile_picture %}
+          <a target="_blank" href="{{request.user.profile_picture.url}}">
+            <img src="{{ request.user.profile_picture.url }}" alt="Avatar" class="avatar">
+          </a>
+    {% else %}
+          <img src="{{ MEDIA_URL }}Profile_pictures/anonymous.jpg" alt="Avatar" class="avatar">
+    {% endif %}
+    <div class="">
+      <a href="{% url 'users:profile' user.pk %}"> <b>{{request.user}}</b></a>
+    </div>
+
+    {% if request.user.is_superuser and request.user.is_staff  %}
+          <p >logged as <b style="color:red">Super</b> User</p>
+          <br>
+          <a href="{% url 'users:myadmin' %}"> SuperAdmin </a>,
+          <b style="color:red">NOTE : </b><small >Admin is Available to
+          <b style="color:green">Staff</b>  and <b style="color:red">Super</b> Users only. </small>
+    {% elif request.user.is_staff %}
+          <p>logged as <b style="color:green">Staff </b>User</p>
+          <br><a href="{% url 'users:myadmin' %}"> Admin </a>
+          <small >Admin is Available to
+          <b style="color:green">Staff</b>  and <b style="color:red">Super</b> Users only </small>
+    {% else %}
+          <p >logged as <b style="color:orange">Standard</b> User</p>
+    {% endif %}
+    <hr>
+    Organization :
+    <a href="{% url 'organizations:myorganizations-list' %}">Organization</a>
+    {% if request.user.organization == None %}
+      <a href="{% url 'organizations:create' %}">Create New</a>
+        <small>
+       You can create organization because you are not a member of any organization .</small>
+   {% endif %}
+
+
+{% else %}
+    <br><a href="{% url 'users:login' %}"> Log In </a>|
+    <a href="{% url 'users:signup' %}">signup</a>
+{% endif %}
+<hr>

@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %} Organization | {{block.super}} {% endblock %}
+{% block content %}
+<h2>{{user_role}}</h2>
+<p><b>Owner : </b>{{user}}</p>
+
+
+{% if organization.logo %}
+<a target="_blank" href="{{organization.logo.url}}">
+  <img src="{{organization.logo.url}}" alt="Forest" style="width:500px">
+</a><br>
+{% else %}
+<img src="{{ MEDIA_URL }}Profile_pictures/anonymous.jpg" alt="Avatar" class="avatar">
+{% endif %}
+{% if organization.auth_image %}
+<a href="{{organization.auth_image.url}}"> Authorization PDF</a>
+{% endif %}
+<br>
+<h1>{{organization.name}}</h1><b>location: </b><small>{{organization.location}}</small>
+<p><b>Bio : </b> {{organization.bio}} </p>
+<!--  -->
+<hr>
+{% if organization_users.count %}
+<h2>{{organization}} users</h2>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Edit Permissions</th>
+  </tr>
+  {% for user in organization_users %}
+  <tr>
+    <td>
+      <a href="{% url 'users:profile' user.pk %}">
+          {% if user.profile_picture %}
+              <img src="{{user.profile_picture.url}}" alt="Avatar" class="avatar">
+          {% else %}
+              <img src="{{ MEDIA_URL }}Profile_pictures/anonymous.jpg" alt="Avatar" class="avatar">
+          {% endif %}
+      {{user}}
+      </a>
+    </td>
+    <td>
+      {% if not user.is_owner %}
+      <a href="{% url 'users:edit-permissions' user.pk %}">
+        <button type="button" name="button">Edit</button></a>
+        {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<p > Organization have no users yet .
+  <a href="{% url 'users:create-organization-user' organization.slug %} ">add users</a> </p>
+{% endif %}
+<p><a href="{% url 'users:create-organization-user' organization.slug %}">
+  <b>Add New User</b></a></p>
+
+<p><a href="{% url 'permissions:create-permissions' organization.slug %}">
+  <b>Permissions</b> </a></p>
+<!--  --><br>
+<a href="{% url 'organizations:update' organization.slug %}"><button type="button" name="button">Update</button></a>
+
+{% endblock %}

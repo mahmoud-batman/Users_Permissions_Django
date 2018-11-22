@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %} Organization | {{block.super}} {% endblock %}
+{% block content %}
+
+{% if customuser.profile_picture %}
+    <img src="{{customuser.profile_picture.url}}" alt="Avatar" class="avatar">
+{% else %}
+    <img src="{{ MEDIA_URL }}Profile_pictures/anonymous.jpg" alt="Avatar" class="avatar">
+{% endif %}
+{{customuser}}
+<br>
+<h1>{{customuser}} Permissions :</h1>
+<ul>
+  {% for perm in user_permissions%}
+<li>  {{perm.name}}</li><br>
+  {% endfor %}
+
+</ul>
+{% endblock %}

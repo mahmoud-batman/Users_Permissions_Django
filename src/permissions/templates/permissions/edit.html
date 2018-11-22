@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %} Organization | {{block.super}} {% endblock %}
+{% block content %}
+<br>{{permission}}
+<br>
+<form method="post">
+  {% csrf_token %}
+<br>
+  <div>
+
+    <label for="code_name">Edit Permission Code :</label>
+    <input type="text"
+    id="code_name" name="code_name"
+    value="{{permission.codename}}"><br><br>
+
+    <label for="name">Edit Permission Name :</label>
+    <input type="text"
+    id="name" name="name"
+    value="{{permission.name}}" >
+  </div><br>
+  
+  <button type="submit">Save</button>
+</form>
+{% endblock %}

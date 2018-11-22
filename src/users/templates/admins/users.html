@@ -1,0 +1,37 @@
+{% extends 'base.html'%}
+{% block content %}
+<a href="#">Create New User</a> ,
+ <small >Available to <b style="color:red">Super </b>Users only , is shown to test permissions for not super user  </small>
+
+<h2>USERS Table</h2>
+<table>
+  <tr>
+    <th>UserName</th>
+    <th>Is Staff</th>
+    <th>Is Super User</th>
+    <th>Organization</th>
+  </tr>
+  {% for user in users %}
+  <tr>
+    <td>
+      <a href="{% url 'users:profile' user.id %}">
+        {% if user.profile_picture %}
+          <img src="{{ user.profile_picture.url }}" alt="Avatar" class="avatar">
+        {% else %}
+          <img src="{{ MEDIA_URL }}Profile_pictures/anonymous.jpg" alt="Avatar" class="avatar">
+        {% endif %}
+        {{user}}
+      </a>
+    </td>
+    <td>{{user.is_staff}}</td>
+    <td>{{user.is_superuser}}</td>
+    <td>
+      {% if user.organization %}
+        <a href="{% url 'organizations:organizations-detail' user.organization.slug %}">{{user.organization}}</a>
+      {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% endblock %}

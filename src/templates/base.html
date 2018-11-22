@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}iEPM {% endblock %}</title>
+  {% include 'snippets/css/table.html' %}
+  {% include 'snippets/css/avatar.html' %}
+  {% include 'snippets/css/thumbnail.html' %}
+
+</head>
+<body>
+  {% include 'snippets/nav.html' %}<br>{% block nav %}{% endblock nav %}
+
+  <main>
+    {% block content %}
+    {% endblock %}
+  </main>
+</body>
+</html>

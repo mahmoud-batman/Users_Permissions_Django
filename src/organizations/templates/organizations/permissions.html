@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %} Organization | {{block.super}} {% endblock %}
+{% block content %}
+<h1>Permission</h1>
+<form method="post">
+  {% csrf_token %}
+  <div>
+    {% for perm in permissions%}
+    <input type="checkbox" id="subscribeNews" name="checks" value="{{perm}}">
+    <label for="subscribeNews">{{perm.name}}</label><br>
+    {% endfor %}
+  </div><br>
+  <button type="submit">Save</button>
+</form>
+{% endblock %}

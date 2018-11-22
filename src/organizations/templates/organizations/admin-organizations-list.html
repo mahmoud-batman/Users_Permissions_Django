@@ -1,0 +1,33 @@
+{% extends 'base.html'%}
+{% block content %}
+
+{% if organizations %}
+<h2>{{user_role}}</h2>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Location</th>
+    <th>Bio</th>
+  </tr>
+  {% for organization in organizations %}
+  <tr>
+    <td>
+      <a href="{% url 'organizations:organizations-detail' organization.slug %}">
+          {% if organization.logo %}
+              <img src="{{organization.logo.url}}" alt="Avatar" class="avatar">
+          {% else %}
+              <img src="{{ MEDIA_URL }}Profile_pictures/anonymous.jpg" alt="Avatar" class="avatar">
+          {% endif %}
+              {{organization}}
+      </a>
+    </td>
+    <td>{{organization.location}}</td>
+    <td>{{organization.bio}}</td>
+  </tr>
+{% endfor %}
+
+</table>
+{% else %}
+YOU ARE NOT A MEMBER Or OWNER OF ANY ORGANIZATION </b>
+{% endif %}
+{% endblock %}

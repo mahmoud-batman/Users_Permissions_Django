@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if user.is_superuser %}
+<table>
+  <tr><td><a href="{% url 'organizations:organizations-list' %}">All Organizations</a> ,
+       <small >Available to <b style="color:red">Super </b>Users only </small><br>
+    </td></tr>
+    {% endif %}
+    <tr><td><a href="{% url 'users:users-list' %}">Users</a></td></tr>
+</table>
+
+{% endblock content %}
