@@ -103,7 +103,7 @@ def profile(request, pk):
 
 """
 the Owner of the same organization of that user
-only who can edit users permissions
+only who can edit his permissions
 """
 @user_passes_test(isOwner, login_url = 'users:login')
 def userEditPermissions(request, pk):
