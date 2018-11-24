@@ -39,20 +39,3 @@ def pre_save_organization(instance, *args, **kwargs):
     if not instance.slug:
         instance.slug  = slugify(instance.name)+'-'+str(random.randint(1,1000000000))
 pre_save.connect(pre_save_organization, Organization)
-
-# def organization_owner(instance, *args, **kwargs):
-#     user_id = instance.owner_id
-#     instance.users.create()
-# pre_save.connect(organization_owner, Organization)
-
-
-
-# class OrganizationGroup(models.Model):
-#     organization = models.OneToOneField(Organization, on_delete=models.CASCADE,)
-#
-#     def __str__(self):
-#         return self.organization.name
-#
-# def pre_save_organizationgroup(instance, *args, **kwargs):
-#     orgGroup = OrganizationGroup.objects.get_or_create(organization = instance)
-# pre_save.connect(pre_save_organizationgroup, Organization)
