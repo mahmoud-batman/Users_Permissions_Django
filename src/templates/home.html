@@ -1,8 +1,124 @@
 {% extends 'base.html' %}
-
-{% block title %}Home{% endblock %}
-
 {% block content %}
-<h1>Home Page</h1>
+<h1>home</h1>
+<br>
+<div class="container">
+  <!-- Trigger the modal with a button -->
+  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">
+    Add Post</button>
 
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Add Posts</h4>
+        </div>
+<!-- form -->
+        <form class="" action="{% url 'posts:add-new-post' %}" method="POST" id="post-form">
+          {% csrf_token %}
+          <div class="modal-body">
+            <input type="text" name="title" id="title-id" value="" placeholder="title"><hr>
+            <textarea name="body" id="body-id" rows="8" cols="60" placeholder="Post Body" required></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-info">Add again</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
+      </form>
+<!-- /form -->
+      </div>
+    </div>
+  </div>
+</div><br><br><br>
+
+<div class="" id = "post-id">
+
+</div>
+{% if posts.count %}
+{% for post in posts %}
+<div class="well" >
+  <div class="media">
+    <a class="pull-left" href="#">
+      <img class="media-object" src="http://placekitten.com/150/150"></a>
+      <div class="media-body">
+        <h4 class="media-heading">{{post.title}}</h4>
+          <p class="text-right">By Francisco</p>
+          <p>{{post.body}} </p>
+          <ul class="list-inline list-unstyled">
+            <li><span><i class="glyphicon glyphicon-calendar"></i> {{post.updated_at|timesince }} ago </span></li>
+            <li>|</li><span><i class="glyphicon glyphicon-comment"></i> 2 comments</span>
+            <li>|</li>
+            <li>
+              <span class="glyphicon glyphicon-star"></span>
+              <span class="glyphicon glyphicon-star"></span>
+              <span class="glyphicon glyphicon-star"></span>
+              <span class="glyphicon glyphicon-star"></span>
+              <span class="glyphicon glyphicon-star-empty"></span>
+            </li>
+            <li>|</li>
+            <li></li>
+          </ul>
+      </div>
+    </div>
+</div>
+{% endfor %}
+{% endif %}
 {% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+  $('#post-form').on('submit', function(event){
+      event.preventDefault();
+      console.log("form submitted!")
+      create_post();
+  });
+
+  function create_post() {
+    console.log("create post is working!")
+    var token = $("#post-form").find('input[name=csrfmiddlewaretoken]').val()
+    // var template = $('#post-id').html();
+    $.ajax({
+        url : "{% url 'posts:add-new-post' %}",
+        type : "POST",
+        data : {
+          title : $('#title-id').val(),
+          body  : $('#body-id').val() ,
+          csrfmiddlewaretoken : token,
+         },
+
+        success : function(json) {
+            $('#title-id').val('');
+            $('#body-id').val('');
+            console.log(json.updated_at);
+            $("#post-id").prepend('<div class="well" >' +
+              '<div class="media"><a class="pull-left" href="#">'+
+              '<img class="media-object" src="http://placekitten.com/150/150"></a>'+
+              '<div class="media-body"><h4 class="media-heading">'+json.title+'</h4>'+
+              '<p class="text-right">By Francisco</p><p>'+json.body+'</p>'+
+              '<ul class="list-inline list-unstyled">'+
+              '<li><span><i class="glyphicon glyphicon-calendar"></i>'+json.updated_at+'</span></li>'+
+              '<li>|</li><span><i class="glyphicon glyphicon-comment"></i> 2 comments</span>'+
+              '<li>|</li><li><span class="glyphicon glyphicon-star"></span>'+
+              '<span class="glyphicon glyphicon-star"></span>'+
+              '<span class="glyphicon glyphicon-star"></span>'+
+              '<span class="glyphicon glyphicon-star"></span>'+
+              '<span class="glyphicon glyphicon-star-empty"></span>'+
+              '</li><li>|</li><li></li></ul></div></div></div>');
+            console.log("success");
+        },
+
+        error : function(xhr,errmsg,err) {
+            console.log("error");
+            // $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+
+            //   errmsg+
+            //     " <a href='#' class='close'>&times;</a></div>");
+            // console.log(xhr.status + ": " + xhr.responseText);
+        }
+    });
+};
+</script>
+{% endblock js %}

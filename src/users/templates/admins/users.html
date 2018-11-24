@@ -1,4 +1,5 @@
 {% extends 'base.html'%}
+
 {% block content %}
 <a href="#">Create New User</a> ,
  <small >Available to <b style="color:red">Super </b>Users only , is shown to test permissions for not super user  </small>
@@ -9,6 +10,7 @@
     <th>UserName</th>
     <th>Is Staff</th>
     <th>Is Super User</th>
+    <th>Is Owner</th>
     <th>Organization</th>
   </tr>
   {% for user in users %}
@@ -25,6 +27,7 @@
     </td>
     <td>{{user.is_staff}}</td>
     <td>{{user.is_superuser}}</td>
+    <td> {{user.is_owner }}</td>
     <td>
       {% if user.organization %}
         <a href="{% url 'organizations:organizations-detail' user.organization.slug %}">{{user.organization}}</a>

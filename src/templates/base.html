@@ -3,17 +3,27 @@
 <head>
   <meta charset="utf-8">
   <title>{% block title %}iEPM {% endblock %}</title>
-  {% include 'snippets/css/table.html' %}
-  {% include 'snippets/css/avatar.html' %}
-  {% include 'snippets/css/thumbnail.html' %}
-
+  {% include 'snippets/css/css.html' %}
 </head>
+
+<div class="container">
+
 <body>
-  {% include 'snippets/nav.html' %}<br>{% block nav %}{% endblock nav %}
+  {% include 'snippets/nav.html' %}
+  <br>
+  {% block nav %}
+
+  {% endblock nav %}
 
   <main>
-    {% block content %}
-    {% endblock %}
+      {% block content %}
+      {% endblock %}
   </main>
 </body>
+</div>
+
+{% include 'snippets/js/js.html' %}
+{% block js %}
+{% endblock js %}
+
 </html>
