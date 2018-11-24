@@ -80,7 +80,6 @@
   function create_post() {
     console.log("create post is working!")
     var token = $("#post-form").find('input[name=csrfmiddlewaretoken]').val()
-    // var template = $('#post-id').html();
     $.ajax({
         url : "{% url 'posts:add-new-post' %}",
         type : "POST",
@@ -113,10 +112,7 @@
 
         error : function(xhr,errmsg,err) {
             console.log("error");
-            // $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+
-            //   errmsg+
-            //     " <a href='#' class='close'>&times;</a></div>");
-            // console.log(xhr.status + ": " + xhr.responseText);
+
         }
     });
 };
